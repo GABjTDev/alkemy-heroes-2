@@ -19,7 +19,7 @@ const LoginScreen = () => {
             errors.email = 'Required';
         } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
             errors.email = 'Invalid email address';
-        }else if (values.email !== 'challenge@alkemy.org') {
+        }else if (values.email !== 'challenge@alkemy.org' && values.email !== 'gabriel@alkemy.org') {
             errors.email = 'Email Incorrect'
         }
 
@@ -39,19 +39,33 @@ const LoginScreen = () => {
         onSubmit: values => {
           //alert(JSON.stringify(values, null, 2));
           const {email,password} = values;
-          axios({
-            method: 'get',
-            url: `http://challenge-react.alkemy.org/?email=${email}&password=${password}`
-          })
-            .then(res => {
-                const newUser = {
-                    user: email,
-                    token: res.data.token
-                }
-                localStorage.setItem('authAlkemy', JSON.stringify(newUser));
-                dispatch(login(newUser));
-                navigate('/');
-            })
+
+          if(email === 'challenge@alkemy.org' && password === 'react'){
+
+            axios({
+                method: 'get',
+                url: `http://challenge-react.alkemy.org/?email=${email}&password=${password}`
+              })
+                .then(res => {
+                    const newUser = {
+                        user: email,
+                        token: res.data.token
+                    }
+                    localStorage.setItem('authAlkemy', JSON.stringify(newUser));
+                    dispatch(login(newUser));
+                    navigate('/');
+                })
+
+          }else if (email === 'gabriel@alkemy.org' && password === 'react'){
+              
+            const newUser = {
+                user: email,
+                token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiZW1haWwiOiJjaGFsbGVuZ2VAYWxrZW15Lm9yZyIsImlhdCI6MTUxNjIzOTAyMn0.ilhFPrG0y7olRHifbjvcMOlH7q2YwlegT0f4aSbryBE'
+            }
+            dispatch(login(newUser))
+
+          }
+          
         },
     });
 
