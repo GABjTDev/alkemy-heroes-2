@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 
 
 import { logout } from "../../actions/auth";
+import { resetTeams } from "../../actions/teams";
 
 import '../../styles/components/ui/Navbar.css';
 
@@ -14,7 +15,10 @@ const Navbar = () => {
 
     const handleLogout = () => {
         localStorage.removeItem('authAlkemy');
+        localStorage.removeItem('villansAlkemy');
+        localStorage.removeItem('heroesAlkemy');
         dispatch(logout());
+        dispatch(resetTeams());
         navigate('/login');
     }
     return (

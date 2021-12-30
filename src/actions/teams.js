@@ -27,3 +27,9 @@ export const removeVillan = (id) => {
         payload: id
     }
 }
+
+export const resetTeams = () => {
+    return{
+        type: TYPES.RESET_TEAMS
+    }
+}

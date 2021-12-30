@@ -9,4 +9,6 @@ export const TYPES = {
     REMOVE_HEROE: '[remove] heroe',
     REMOVE_VILLAN: '[remove] villan',
 
+    RESET_TEAMS: '[logout] RESET'
+
 }

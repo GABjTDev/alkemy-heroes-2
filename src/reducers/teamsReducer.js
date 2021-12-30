@@ -35,6 +35,9 @@ export const teamsReducer = (state = initialState, action) => {
                 villansTeam: state.villansTeam.filter(villan => villan.id !== action.payload)
             }
 
+        case TYPES.RESET_TEAMS: 
+            return initialState
+        
         default:
             return state;
     }
