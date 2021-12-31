@@ -18,6 +18,6 @@ You may also see any lint errors in the console.
 #### Funciones implementadas
 * Poder agregar héroes o villanos a su propio equipo, con un máximo de 3 por equipo.
 * Acumulador de estadísticas, altura y peso total del equipo.
-* Buscador de heroes
+* Buscador de héroes.
 * Login y Logout usuarios challenge@alkemy.org o gabriel@alkemy.org, pass: react
-* Peticiones http
+* Peticiones http.
