@@ -16,8 +16,8 @@ You may also see any lint errors in the console.
 
 ### Proyecto de superheroes
 #### Funciones implementadas
-* Poder agregar heroes o villanos a su propio equipo, con un maximo de 3 por equipo.
-* Acumulador de estadisticas, altura y peso total del equipo.
+* Poder agregar héroes o villanos a su propio equipo, con un máximo de 3 por equipo.
+* Acumulador de estadísticas, altura y peso total del equipo.
 * Buscador de heroes
 * Login y Logout usuarios challenge@alkemy.org o gabriel@alkemy.org, pass: react
 * Peticiones http
