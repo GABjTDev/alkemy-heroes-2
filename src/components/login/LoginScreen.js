@@ -84,7 +84,8 @@ const LoginScreen = () => {
                                     id="InputEmail" 
                                     aria-describedby="emailHelp" 
                                     autoComplete="off" 
-                                    name="email" 
+                                    name="email"
+                                    placeholder='gabriel@alkemy.org'
                                     onChange={formik.handleChange} 
                                     value={formik.values.email} 
                                 />
@@ -99,6 +100,7 @@ const LoginScreen = () => {
                                     className="form-control mb-2" 
                                     id="InputPassword" 
                                     name="password" 
+                                    placeholder='react'
                                     onChange={formik.handleChange} 
                                     value={formik.values.password} 
                                 />
