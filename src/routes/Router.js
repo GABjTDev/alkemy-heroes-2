@@ -11,32 +11,58 @@ import PrivateRoute from "./PrivateRoute";
 import PublicRoute from "./PublicRoute";
 
 const Router = () => {
-
-    let routes = [
+  let routes = [
+    {
+      path: "/login",
+      element: (
+        <PublicRoute>
+          <LoginScreen />
+        </PublicRoute>
+      ),
+    },
+    {
+      path: "/",
+      element: <Layout />,
+      children: [
         {
-          path: "/login",
-          element: <PublicRoute><LoginScreen /></PublicRoute>
+          index: true,
+          element: (
+            <PrivateRoute>
+              <TeamScreen />
+            </PrivateRoute>
+          ),
         },
         {
-          path: "/",
-          element: <Layout />,
-          children: [
-            { index: true, element: <PrivateRoute><TeamScreen /></PrivateRoute> },
-            { path: "/heroes", element: <PrivateRoute><HeroesScreen /></PrivateRoute> },
-            { path: "/heroe/:id", element: <PrivateRoute><HeroeScreen /></PrivateRoute> },
-            { path: "*", element: <PrivateRoute><TeamScreen /></PrivateRoute> }
-          ]
-        }
-      ];
-      
-    
-    let elementRoutes = useRoutes(routes);
-    
-    return (
-        <>
-            {elementRoutes}
-        </>
-    )
-}
+          path: "/heroes",
+          element: (
+            <PrivateRoute>
+              <HeroesScreen />
+            </PrivateRoute>
+          ),
+        },
+        {
+          path: "/heroe/:id",
+          element: (
+            <PrivateRoute>
+              <HeroeScreen />
+            </PrivateRoute>
+          ),
+        },
+        {
+          path: "*",
+          element: (
+            <PrivateRoute>
+              <TeamScreen />
+            </PrivateRoute>
+          ),
+        },
+      ],
+    },
+  ];
 
-export default Router
+  let elementRoutes = useRoutes(routes);
+
+  return <>{elementRoutes}</>;
+};
+
+export default Router;

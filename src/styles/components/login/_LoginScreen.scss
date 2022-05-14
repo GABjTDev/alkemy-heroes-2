@@ -1,0 +1,13 @@
+.placeText{
+  transform: translate(0, 0);
+  transition: all .4s ease;
+  z-index: 1000;
+}
+
+input:focus ~ .placeText{
+  transform: translate(-30px, -40px);
+}
+
+.inputSelect ~ .placeText{
+  transform: translate(-30px, -40px);
+}

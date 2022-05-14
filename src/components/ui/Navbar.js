@@ -1,60 +1,94 @@
-import {Link, NavLink} from "react-router-dom";
-import { useNavigate } from 'react-router-dom';
+import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-
 
 import { logout } from "../../actions/auth";
 import { resetTeams } from "../../actions/teams";
 
-import '../../styles/components/ui/Navbar.css';
+import { HStack, Image, Box, Button, Link } from "@chakra-ui/react";
+import { MdLogout } from "react-icons/md";
+import LOGO from "../../styles/assets/logoAlkemy.svg";
 
 const Navbar = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
+  const handleLogout = () => {
+    localStorage.removeItem("authAlkemy");
+    localStorage.removeItem("villansAlkemy");
+    localStorage.removeItem("heroesAlkemy");
+    dispatch(logout());
+    dispatch(resetTeams());
+    navigate("/login");
+  };
 
-    const handleLogout = () => {
-        localStorage.removeItem('authAlkemy');
-        localStorage.removeItem('villansAlkemy');
-        localStorage.removeItem('heroesAlkemy');
-        dispatch(logout());
-        dispatch(resetTeams());
-        navigate('/login');
-    }
-    return (
-        <nav className="navbar navbar-expand-lg navbar-dark bg-dark mb-5">
-            <div className="container-fluid">
-                <Link className="navbar-brand" to="/">Alkemy Heroes</Link>
-                <button 
-                    className="navbar-toggler" 
-                    type="button" 
-                    data-bs-toggle="collapse" 
-                    data-bs-target="#navbarSupportedContent" 
-                    aria-controls="navbarSupportedContent" 
-                    aria-expanded="false" 
-                    aria-label="Toggle navigation"
-                    >
-                    <span className="navbar-toggler-icon"></span>
-                </button>
+  return (
+    <Box
+      as="nav"
+      bgColor={"transparent"}
+      boxShadow={"1px 1px 5px rgba(0,0,0,.5)"}
+      p={"0 40px"}
+      height={"60px"}
+      display={"flex"}
+      mb={"20px"}
+    >
+      <HStack w={"100%"}>
+        <Link to="/" mr={"40px"}>
+          <Image src={LOGO} width="150px" alt="Logo de Alkemy" />
+        </Link>
+        <Box as="ul" display={"flex"} height={"100%"} w={"100%"}>
+          <Box as="li" listStyleType={"none"}>
+            <Link
+              to="/"
+              as={NavLink}
+              listStyleType={"none"}
+              height={"100%"}
+              display={"flex"}
+              alignItems={"center"}
+              mr={"40px"}
+              _hover={{ textDecoration: "none" }}
+            >
+              Team
+            </Link>
+          </Box>
+          <Box as="li" listStyleType={"none"}>
+            <Link
+              to="/heroes"
+              as={NavLink}
+              listStyleType={"none"}
+              height={"100%"}
+              display={"flex"}
+              alignItems={"center"}
+              mr={"40px"}
+              _hover={{ textDecoration: "none" }}
+            >
+              Heroes
+            </Link>
+          </Box>
 
-                <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li className="nav-item">
-                            <NavLink className="nav-link" aria-current="page" to="/">Team</NavLink>
-                        </li>
-                        <li className="nav-item">
-                            <NavLink className="nav-link" to="/heroes">Heroes</NavLink>
-                        </li>
-                        <li className="nav-item">
-                            <button className="btn btn-outline-danger btn-block" onClick={handleLogout}>
-                                <i className="fas fa-sign-out-alt"></i><span>  Logout</span>
-                            </button>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    )
-}
+          <Box
+            as="li"
+            listStyleType={"none"}
+            display={"flex"}
+            alignItems={"center"}
+            flexGrow={1}
+            width={"100%"}
+            justifyContent={"flex-end"}
+          >
+            <Button
+              onClick={handleLogout}
+              type="submit"
+              rightIcon={<MdLogout />}
+              colorScheme="red"
+              variant="outline"
+            >
+              Logout
+            </Button>
+          </Box>
+        </Box>
+      </HStack>
+    </Box>
+  );
+};
 
-export default Navbar
+export default Navbar;
