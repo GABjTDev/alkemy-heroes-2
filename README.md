@@ -21,3 +21,5 @@ You may also see any lint errors in the console.
 * Buscador de héroes.
 * Login y Logout usuarios challenge@alkemy.org o gabriel@alkemy.org, pass: react
 * Peticiones http.
+![brave_Qrhu39AXmK](https://user-images.githubusercontent.com/47054908/163461889-bc2a95d9-a735-47b0-a818-99d3d49adf46.jpg)
+![brave_mzvja8idX1](https://user-images.githubusercontent.com/47054908/163461960-2c4377a2-ecf8-43cb-9fc4-5b6f588745a6.png)
