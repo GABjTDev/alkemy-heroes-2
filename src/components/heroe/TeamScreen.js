@@ -50,46 +50,71 @@ const createStats = (team) => {
 };
 
 const TeamScreen = () => {
-  const { heroesTeam, villansTeam } = useSelector((state) => state.teams);
+  const { heroes, villans } = useSelector((state) => state.Teams);
+  const { Auth } = useSelector((state) => state);
   const [statsHeroes, setStatsHeroes] = useState({});
   const [statsVillans, setStatsVillans] = useState({});
 
   useEffect(() => {
-    setStatsHeroes(createStats(heroesTeam));
-  }, [heroesTeam]);
+    localStorage.setItem("tokenAlkemy", JSON.stringify({ token: Auth.token }));
+  }, [Auth]);
 
   useEffect(() => {
-    setStatsVillans(createStats(villansTeam));
-  }, [villansTeam]);
+    setStatsHeroes(createStats(heroes));
+  }, [heroes]);
 
-  //   background: #536976;  /* fallback for old browsers */
-  // background: -webkit-linear-gradient(to right, #292E49, #536976);  /* Chrome 10-25, Safari 5.1-6 */
-  // background: linear-gradient(to right, #292E49, #536976); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  useEffect(() => {
+    setStatsVillans(createStats(villans));
+  }, [villans]);
 
   return (
-    <Container as={"main"} maxW={"100%"} fontWeight={"bold"} height={"100vh"}>
-      <Text as={"h1"} fontSize={"4xl"}>
-        Teams Heroes/Villans
-      </Text>
+    <Container as={"main"} width={"100%"} maxW={"100%"} fontWeight={"bold"}>
       <Stack
         flexDirection={{ sm: "column", md: "row" }}
         alignItems={"center"}
         justifyContent={"center"}
+        width={"100%"}
       >
-        {heroesTeam.length >= 1 ? (
-          <Team title="Heroes" teams={heroesTeam} stats={statsHeroes} />
+        {heroes.length >= 1 ? (
+          <Team
+            title="Heroes"
+            teams={heroes}
+            stats={statsHeroes}
+            color={"blue.400"}
+          />
         ) : (
-          <Text>Heroes empty</Text>
+          <Text
+            as="h2"
+            fontSize="3xl"
+            color={"blue.400"}
+            textAlign="center"
+            flexGrow={1}
+          >
+            Heroes empty
+          </Text>
         )}
 
         <Box w={"100vw"} maxW={"100px"}>
           <Image src={VS} alt="img Versus" />
         </Box>
 
-        {villansTeam.length >= 1 ? (
-          <Team title="Villans" teams={villansTeam} stats={statsVillans} />
+        {villans.length >= 1 ? (
+          <Team
+            title="Villans"
+            teams={villans}
+            stats={statsVillans}
+            color={"red.400"}
+          />
         ) : (
-          <Text>Villans empty</Text>
+          <Text
+            as="h2"
+            fontSize="3xl"
+            color={"red.400"}
+            textAlign="center"
+            flexGrow={1}
+          >
+            Villans empty
+          </Text>
         )}
       </Stack>
     </Container>

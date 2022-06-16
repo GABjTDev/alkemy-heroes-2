@@ -5,7 +5,7 @@ import Progress from "../ui/Progress";
 import Spinner from "../ui/Spinner";
 
 import ButtonsAdd from "../ui/ButtonsAdd";
-import { Container, Box, Stack, VStack, Text } from "@chakra-ui/react";
+import { Container, Box, Stack, VStack, Text, Image } from "@chakra-ui/react";
 
 const initialState = {
   heroe: {},
@@ -16,7 +16,7 @@ const HeroeScreen = () => {
   const { id } = useParams();
   const [heroe, setHeroe] = useState(initialState);
 
-  const { name, biography, image, powerstats, appearance, work } = heroe.heroe;
+  const { name, biography, images, powerstats, appearance, work } = heroe.heroe;
 
   useEffect(() => {
     const dataHeroe = async () => {
@@ -37,26 +37,45 @@ const HeroeScreen = () => {
         <Spinner />
       ) : (
         <>
-          <Box>
-            <Text as="h1" fontSize="4xl">
-              {name}
-            </Text>
-            <Stack flexDirection={["column", "column", "row"]} mb={"20px"}>
-              <Box marginRight={"20px"}>
-                <img src={image.url} alt={`Foto de ${name}`} />
+          <Text
+            as="h1"
+            fontSize="4xl"
+            textAlign={"center"}
+            fontWeight={"bold"}
+            marginBottom={"10px"}
+          >
+            {name}
+          </Text>
+          <Box
+            background={"white"}
+            borderRadius={"50px"}
+            boxShadow={"0 0 5px rgba(0,0,0,.5)"}
+          >
+            <Stack flexDirection={["column", "column", "row"]} mb={"30px"}>
+              <Box>
+                <Image
+                  src={images.lg}
+                  alt={`Foto de ${name}`}
+                  borderLeftRadius={{ md: "50px" }}
+                  borderTopRadius={{ sm: "50px" }}
+                  borderTopRightRadius={{ md: "0px" }}
+                  width={"100%"}
+                  height={"100%"}
+                  objectFit={"cover"}
+                />
               </Box>
-              <VStack spacing={4} alignItems={"flex-start"}>
-                <Text as="h2" fontSize="3xl">
+              <VStack spacing={4} alignItems={"flex-start"} padding={"40px"}>
+                <Text as="h2" fontSize="3xl" fontWeight={"bold"}>
                   Biography
                 </Text>
                 <p>
-                  Full-name: <b>{biography["full-name"]}</b>
+                  Full-name: <b>{biography["fullName"]}</b>
                 </p>
                 <p>
                   Aliases: <b>{biography["aliases"]}</b>
                 </p>
                 <p>
-                  First-appearance: <b>{biography["first-appearance"]}</b>
+                  First-appearance: <b>{biography["firstAppearance"]}</b>
                 </p>
                 <p>
                   Publisher: <b>{biography["publisher"]}</b>
@@ -71,22 +90,30 @@ const HeroeScreen = () => {
                   Weight: <b>{appearance["weight"][1]}</b>
                 </p>
                 <p>
-                  Eye Color: <b>{appearance["eye-color"]}</b>
+                  Eye Color: <b>{appearance["eyeColor"]}</b>
                 </p>
                 <p>
-                  Hair Color: <b>{appearance["hair-color"]}</b>
+                  Hair Color: <b>{appearance["hairColor"]}</b>
                 </p>
                 <p>
                   Work: <b>{work["occupation"]}</b>
                 </p>
-                <ButtonsAdd {...heroe.heroe} />
+                <ButtonsAdd character={heroe.heroe} />
               </VStack>
             </Stack>
           </Box>
-          <Text as="h2" fontSize="3xl">
-            Stats:
+          <Text as="h2" fontSize="3xl" textAlign={"center"} fontWeight={"bold"}>
+            Stats
           </Text>
-          <Progress powerstats={powerstats} rol={biography["alignment"]} />
+          <Box
+            background={"white"}
+            padding={"20px 50px"}
+            maxW={"1000px"}
+            margin={"0 auto"}
+            borderRadius={"50px"}
+          >
+            <Progress powerstats={powerstats} rol={biography["alignment"]} />
+          </Box>
         </>
       )}
     </Container>

@@ -1,83 +1,70 @@
-import { Grid, GridItem, Container } from "@chakra-ui/react";
-import { Formik, Field, Form } from "formik";
-
-import useHeroes from "../../hooks/useHeroes";
+import { Container, Grid, GridItem, Text } from "@chakra-ui/react";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { startGetAllCharacters } from "../../store/reducers/charactersSlice";
 
 import Spinner from "../ui/Spinner";
 import ColHeroeCard from "./ColHeroeCard";
 
 const HeroesScreen = () => {
-  const { loading, heroes, error, searchHeroe } = useHeroes();
+  const dispatch = useDispatch();
+  const { Characters } = useSelector((state) => state);
+
+  useEffect(() => {
+    if (
+      Characters.status !== "completed" ||
+      Characters.visibleCharacters.length === 0
+    )
+      dispatch(startGetAllCharacters());
+  }, [dispatch]);
 
   return (
     <div className="container">
-      <div className="row place-content-center">
-        {loading ? (
+      <Container maxW="1400px" padding={"16px"}>
+        {Characters.status === "pending" ? (
           <Spinner />
         ) : (
           <>
-            <Formik
-              initialValues={{
-                search: "",
-              }}
-              validate={(values) => {
-                const errors = {};
-
-                if (!values.search) {
-                  errors.search = "Required";
-                } else if (!isNaN(values.search)) {
-                  errors.search = "Search is a number";
-                }
-
-                return errors;
-              }}
-              onSubmit={(values) => {
-                searchHeroe(values.search.toLowerCase());
-                values.search = "";
-              }}
-            >
-              {({ errors }) => (
-                <Form className="form-search mb-4">
-                  <Field
-                    id="search"
-                    name="search"
-                    placeholder="Search"
-                    className={errors.search ? "error-input" : ""}
-                  />
-                  <button type="submit">
-                    <i className="fas fa-search"></i>
-                  </button>
-                </Form>
-              )}
-            </Formik>
             <Grid
               templateColumns={{
-                sm: "repeat(2, 1fr)",
-                md: "repeat(3, 1fr)",
-                lg: "repeat(4, 1fr)",
+                sm: "repeat(1, 1fr)",
+                md: "repeat(2, 1fr)",
+                lg: "repeat(3, 1fr)",
+                xl: "repeat(4, 1fr)",
               }}
               justifyContent={"center"}
             >
-              {heroes.map((heroe) => {
+              {Characters.visibleCharacters.length === 0 && (
+                <Text
+                  as="h2"
+                  fontSize="5xl"
+                  color="tomato"
+                  gridColumn={"span 2"}
+                >
+                  Not Found Characters
+                </Text>
+              )}
+              {Characters.visibleCharacters.map((character) => {
                 return (
                   <GridItem
-                    key={heroe.id}
+                    key={character.id}
                     display="flex"
                     justifyContent={"center"}
                   >
-                    <ColHeroeCard heroe={heroe} actionDelete={false} />
+                    <ColHeroeCard character={character} actionDelete={false} />
                   </GridItem>
                 );
               })}
             </Grid>
-            {error && (
+            {Characters.error && (
               <div className="alert alert-danger" role="alert">
-                El heroe no existe
+                {Characters.error}
               </div>
             )}
           </>
         )}
-      </div>
+      </Container>
     </div>
   );
 };

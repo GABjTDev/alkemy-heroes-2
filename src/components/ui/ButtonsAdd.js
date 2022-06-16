@@ -1,8 +1,8 @@
 import Swal from "sweetalert2";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addHeroe, addVillan } from "../../actions/teams";
 import { Button } from "@chakra-ui/react";
+import { addHeroe, addVillan } from "../../store/reducers/teamsSlice";
 
 const ErrorMessage = (team) => {
   Swal.fire({
@@ -28,85 +28,59 @@ const addSucces = (team) => {
   );
 };
 
-const ButtonsAdd = React.memo(
-  ({ id, name, image, powerstats, biography, appearance }) => {
-    const dispatch = useDispatch();
-    const { heroesTeam, villansTeam } = useSelector((state) => state.teams);
+const ButtonsAdd = React.memo(({ character }) => {
+  const dispatch = useDispatch();
+  const { heroes, villans } = useSelector((state) => state.Teams);
 
-    const handleAddHeroe = (heroe) => {
-      if (heroesTeam.length < 3) {
-        if (heroesTeam.find((h) => h.id === id)) {
-          ErrorMessageExists("Heroes");
-        } else {
-          dispatch(addHeroe(heroe));
-
-          const newObj = [...heroesTeam, heroe];
-
-          localStorage.setItem("heroesAlkemy", JSON.stringify(newObj));
-
-          addSucces("Heroes");
-        }
+  const handleAddHeroe = (heroe) => {
+    if (heroes.length < 3) {
+      if (heroes.find((h) => h.id === heroe.id)) {
+        ErrorMessageExists("Heroes");
       } else {
-        ErrorMessage("Heroes");
+        dispatch(addHeroe({ heroe }));
+
+        const newObj = [...heroes, heroe];
+
+        localStorage.setItem("heroesAlkemy", JSON.stringify(newObj));
+
+        addSucces("Heroes");
       }
-    };
+    } else {
+      ErrorMessage("Heroes");
+    }
+  };
 
-    const handleAddVillan = (villan) => {
-      if (villansTeam.length < 3) {
-        if (villansTeam.find((h) => h.id === id)) {
-          ErrorMessageExists("Villanos");
-        } else {
-          dispatch(addVillan(villan));
-
-          const newObj = [...villansTeam, villan];
-
-          localStorage.setItem("villansAlkemy", JSON.stringify(newObj));
-
-          addSucces("Villanos");
-        }
+  const handleAddVillan = (villan) => {
+    if (villans.length < 3) {
+      if (villans.find((h) => h.id === villan.id)) {
+        ErrorMessageExists("Villanos");
       } else {
-        ErrorMessage("Villanos");
-      }
-    };
+        dispatch(addVillan({ villan }));
 
-    return (
-      <>
-        {biography.alignment === "good" ? (
-          <Button
-            colorScheme="blue"
-            onClick={() =>
-              handleAddHeroe({
-                id,
-                name,
-                image,
-                powerstats,
-                biography,
-                appearance,
-              })
-            }
-          >
-            Agregar Team Heroes
-          </Button>
-        ) : (
-          <Button
-            colorScheme="red"
-            onClick={() =>
-              handleAddVillan({
-                id,
-                name,
-                image,
-                powerstats,
-                biography,
-                appearance,
-              })
-            }
-          >
-            Agregar Team Villanos
-          </Button>
-        )}
-      </>
-    );
-  }
-);
+        const newObj = [...villans, villan];
+
+        localStorage.setItem("villansAlkemy", JSON.stringify(newObj));
+
+        addSucces("Villanos");
+      }
+    } else {
+      ErrorMessage("Villanos");
+    }
+  };
+
+  return (
+    <>
+      {character.biography.alignment === "good" ? (
+        <Button colorScheme="blue" onClick={() => handleAddHeroe(character)}>
+          Agregar Team Heroes
+        </Button>
+      ) : (
+        <Button colorScheme="red" onClick={() => handleAddVillan(character)}>
+          Agregar Team Villanos
+        </Button>
+      )}
+    </>
+  );
+});
 
 export default ButtonsAdd;

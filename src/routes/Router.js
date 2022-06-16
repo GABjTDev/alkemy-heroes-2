@@ -9,8 +9,19 @@ import HeroesScreen from "../components/heroe/HeroesScreen";
 import HeroeScreen from "../components/heroe/HeroeScreen";
 import PrivateRoute from "./PrivateRoute";
 import PublicRoute from "./PublicRoute";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { success } from "../store/reducers/authSlice";
 
 const Router = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const token = localStorage.getItem("tokenAlkemy");
+
+    if (token) dispatch(success({ ...JSON.parse(token) }));
+  }, [dispatch]);
+
   let routes = [
     {
       path: "/login",
@@ -33,7 +44,7 @@ const Router = () => {
           ),
         },
         {
-          path: "/heroes",
+          path: "/characters",
           element: (
             <PrivateRoute>
               <HeroesScreen />
@@ -41,7 +52,7 @@ const Router = () => {
           ),
         },
         {
-          path: "/heroe/:id",
+          path: "/character/:id",
           element: (
             <PrivateRoute>
               <HeroeScreen />
