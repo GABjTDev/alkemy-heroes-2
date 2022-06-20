@@ -1,60 +1,112 @@
-import {Link, NavLink} from "react-router-dom";
-import { useNavigate } from 'react-router-dom';
+import { NavLink, Link as LinkRouter } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
-
-import { logout } from "../../actions/auth";
-import { resetTeams } from "../../actions/teams";
-
-import '../../styles/components/ui/Navbar.css';
+import { HStack, Image, Box, Button, Link } from "@chakra-ui/react";
+import { MdLogout } from "react-icons/md";
+import LOGO from "../../styles/assets/logoAlkemy.svg";
+import NavForm from "./NavForm";
+import { logout } from "../../store/reducers/authSlice";
+import { resetTeam } from "../../store/reducers/teamsSlice";
 
 const Navbar = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
+  const handleLogout = () => {
+    localStorage.removeItem("tokenAlkemy");
+    localStorage.removeItem("villansAlkemy");
+    localStorage.removeItem("heroesAlkemy");
+    dispatch(logout());
+    dispatch(resetTeam());
+    navigate("/login");
+  };
 
-    const handleLogout = () => {
-        localStorage.removeItem('authAlkemy');
-        localStorage.removeItem('villansAlkemy');
-        localStorage.removeItem('heroesAlkemy');
-        dispatch(logout());
-        dispatch(resetTeams());
-        navigate('/login');
-    }
-    return (
-        <nav className="navbar navbar-expand-lg navbar-dark bg-dark mb-5">
-            <div className="container-fluid">
-                <Link className="navbar-brand" to="/">Alkemy Heroes</Link>
-                <button 
-                    className="navbar-toggler" 
-                    type="button" 
-                    data-bs-toggle="collapse" 
-                    data-bs-target="#navbarSupportedContent" 
-                    aria-controls="navbarSupportedContent" 
-                    aria-expanded="false" 
-                    aria-label="Toggle navigation"
-                    >
-                    <span className="navbar-toggler-icon"></span>
-                </button>
+  const pathname = window.location.pathname.slice("1");
 
-                <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li className="nav-item">
-                            <NavLink className="nav-link" aria-current="page" to="/">Team</NavLink>
-                        </li>
-                        <li className="nav-item">
-                            <NavLink className="nav-link" to="/heroes">Heroes</NavLink>
-                        </li>
-                        <li className="nav-item">
-                            <button className="btn btn-outline-danger btn-block" onClick={handleLogout}>
-                                <i className="fas fa-sign-out-alt"></i><span>  Logout</span>
-                            </button>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    )
-}
+  return (
+    <Box
+      as="nav"
+      bgColor={"white"}
+      boxShadow={"1px 1px 5px rgba(0,0,0,.5)"}
+      p={"0 40px"}
+      height={"60px"}
+      display={"flex"}
+      position={"sticky"}
+      top={"0"}
+      width={"100%"}
+      zIndex={1000}
+      mb={"10px"}
+    >
+      <HStack w={"100%"}>
+        <Box mr={"40px"}>
+          <LinkRouter to="/">
+            <Image src={LOGO} width="150px" alt="Logo de Alkemy" />
+          </LinkRouter>
+        </Box>
+        <Box as="ul" display={"flex"} height={"100%"} w={"100%"}>
+          <Box as="li" listStyleType={"none"}>
+            <Link
+              to="/"
+              as={NavLink}
+              listStyleType={"none"}
+              height={"100%"}
+              display={"flex"}
+              alignItems={"center"}
+              mr={"40px"}
+              _hover={{ textDecoration: "none" }}
+              _focus={{ outline: "none" }}
+              fontSize={"20px"}
+              fontWeight={"600"}
+              className={"btn-link"}
+            >
+              Team
+            </Link>
+          </Box>
+          <Box as="li" listStyleType={"none"}>
+            <Link
+              to="/characters"
+              as={NavLink}
+              listStyleType={"none"}
+              height={"100%"}
+              display={"flex"}
+              alignItems={"center"}
+              mr={"40px"}
+              fontSize={"20px"}
+              fontWeight={"600"}
+              _hover={{ textDecoration: "none" }}
+              _focus={{ outline: "none" }}
+              className={"btn-link"}
+            >
+              Characters
+            </Link>
+          </Box>
 
-export default Navbar
+          <Box
+            as="li"
+            listStyleType={"none"}
+            display={"flex"}
+            alignItems={"center"}
+            flexGrow={1}
+            width={"100%"}
+            justifyContent={"flex-end"}
+          >
+            {pathname === "characters" && <NavForm />}
+            <Button
+              onClick={handleLogout}
+              type="submit"
+              rightIcon={<MdLogout />}
+              colorScheme="red"
+              variant="outline"
+              marginLeft={"10px"}
+            >
+              Logout
+            </Button>
+          </Box>
+        </Box>
+      </HStack>
+    </Box>
+  );
+};
+
+export default Navbar;

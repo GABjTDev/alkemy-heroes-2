@@ -1,11 +1,10 @@
-import axios from 'axios';
+import axios from "axios";
 
-const API = 'https://www.superheroapi.com/api.php/6270248763048316';
+const API = "https://cdn.jsdelivr.net/gh/akabab/superhero-api@0.3.0/api/id/";
 
-export const getHeroe = async(id) => {
+export const getHeroe = async (id) => {
+  const res = await axios.get(`${API}/${id}.json`);
+  const heroe = await res.data;
 
-    const res = await axios.get(`${API}/${id}`);
-    const heroe = await res.data;
-
-    return heroe;
-}
+  return heroe;
+};

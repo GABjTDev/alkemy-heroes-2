@@ -1,80 +1,126 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux"
+import { useSelector } from "react-redux";
 import Team from "./Team";
+import { Container, Text, Stack, Image, Box } from "@chakra-ui/react";
+
+import VS from "../../styles/assets/vs.svg";
 
 const updateStats = (stats) => {
-    return stats.reduce((previousValue, currentValue) => {
-        return {
-            'intelligence': Number(previousValue.intelligence) + Number(currentValue.intelligence),
-            'strength': Number(previousValue.strength) + Number(currentValue.strength),
-            'speed': Number(previousValue.speed) + Number(currentValue.speed),
-            'durability': Number(previousValue.durability) + Number(currentValue.durability),
-            'power': Number(previousValue.power) + Number(currentValue.power),
-            'combat': Number(previousValue.combat) + Number(currentValue.combat),
-            'height': Number(previousValue.height.split(' ')[0]) + Number(currentValue.height.split(' ')[0]) + ' cm',
-            'weight': Number(previousValue.weight.split(' ')[0]) + Number(currentValue.weight.split(' ')[0]) + ' kg'
-        }
-    });
-}
+  return stats.reduce((previousValue, currentValue) => {
+    return {
+      intelligence:
+        Number(previousValue.intelligence) + Number(currentValue.intelligence),
+      strength: Number(previousValue.strength) + Number(currentValue.strength),
+      speed: Number(previousValue.speed) + Number(currentValue.speed),
+      durability:
+        Number(previousValue.durability) + Number(currentValue.durability),
+      power: Number(previousValue.power) + Number(currentValue.power),
+      combat: Number(previousValue.combat) + Number(currentValue.combat),
+      height:
+        Number(previousValue.height.split(" ")[0]) +
+        Number(currentValue.height.split(" ")[0]) +
+        " cm",
+      weight:
+        Number(previousValue.weight.split(" ")[0]) +
+        Number(currentValue.weight.split(" ")[0]) +
+        " kg",
+    };
+  });
+};
 
 const createStats = (team) => {
+  if (team.length >= 1) {
+    const arrStats = [];
 
-    if(team.length >= 1){
+    team.forEach((pj) => {
+      const newObj = {
+        ...pj.powerstats,
+        height: pj.appearance.height[1],
+        weight: pj.appearance.weight[1],
+      };
 
-        const arrStats = [];
+      arrStats.push(newObj);
+    });
 
-        team.forEach(pj => {
-            const newObj = {
-                ...pj.powerstats,
-                height: pj.appearance.height[1],
-                weight: pj.appearance.weight[1]
-            }
+    const newStats = updateStats(arrStats);
+    return newStats;
+  }
 
-
-            arrStats.push(newObj);
-        });
-
-        const newStats = updateStats(arrStats);
-        return newStats;
-    }
-
-    return {}
-}
-
-
+  return {};
+};
 
 const TeamScreen = () => {
+  const { heroes, villans } = useSelector((state) => state.Teams);
+  const { Auth } = useSelector((state) => state);
+  const [statsHeroes, setStatsHeroes] = useState({});
+  const [statsVillans, setStatsVillans] = useState({});
 
-    const {heroesTeam, villansTeam} = useSelector(state => state.teams);
-    const [statsHeroes, setStatsHeroes] = useState({});
-    const [statsVillans, setStatsVillans] = useState({});
+  useEffect(() => {
+    localStorage.setItem("tokenAlkemy", JSON.stringify({ token: Auth.token }));
+  }, [Auth]);
 
-    useEffect(() => {
-        setStatsHeroes(createStats(heroesTeam))
-    }, [heroesTeam])
+  useEffect(() => {
+    setStatsHeroes(createStats(heroes));
+  }, [heroes]);
 
-    useEffect(() => {
-        setStatsVillans(createStats(villansTeam));
-    }, [villansTeam])
+  useEffect(() => {
+    setStatsVillans(createStats(villans));
+  }, [villans]);
 
-    return (
-        <main className="container">
-            <h1 className="text-center mb-5">Teams Heroes/Villans</h1>
-            {
-                heroesTeam.length >= 1?
-                    <Team title="Heroes" teams={heroesTeam} stats={statsHeroes} />
-                    :
-                    <h2 className="text-center mb-5 text-primary">Heroes empty</h2>
-            }
+  return (
+    <Container as={"main"} width={"100%"} maxW={"100%"} fontWeight={"bold"}>
+      <Stack
+        flexDirection={{ base: "column", sm: "column", md: "row" }}
+        alignItems={{ base: "center", md: "flex-start" }}
+        justifyContent={"center"}
+        width={"100%"}
+      >
+        {heroes.length >= 1 ? (
+          <Team
+            title="Heroes"
+            teams={heroes}
+            stats={statsHeroes}
+            color={"blue.400"}
+          />
+        ) : (
+          <Text
+            as="h2"
+            fontSize="3xl"
+            color={"blue.400"}
+            textAlign="center"
+            flexGrow={1}
+            alignSelf={"center"}
+          >
+            Heroes empty
+          </Text>
+        )}
 
-            {
-                villansTeam.length >= 1?
-                    <Team title="Villans" teams={villansTeam} stats={statsVillans} />
-                    :
-                    <h2 className="text-center text-danger">Villans empty</h2>
-            }
-        </main>
-    )
-}
+        <Box w={"100vw"} maxW={"100px"} alignSelf={"center"}>
+          <Image src={VS} alt="img Versus" />
+        </Box>
 
-export default TeamScreen
+        {villans.length >= 1 ? (
+          <Team
+            title="Villans"
+            teams={villans}
+            stats={statsVillans}
+            color={"red.400"}
+          />
+        ) : (
+          <Text
+            as="h2"
+            fontSize="3xl"
+            color={"red.400"}
+            textAlign="center"
+            flexGrow={1}
+            alignSelf={"center"}
+          >
+            Villans empty
+          </Text>
+        )}
+      </Stack>
+    </Container>
+  );
+};
+
+export default TeamScreen;

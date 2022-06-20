@@ -1,13 +1,18 @@
 import Router from "./routes/Router";
-import { Provider } from 'react-redux';
-import { storage } from './storage/storage';
+import { Provider } from "react-redux";
+import { ChakraProvider } from "@chakra-ui/react";
+import store from "./store";
+
+import "./styles/styles.scss";
 
 const HeroeApp = () => {
-    return (
-        <Provider store={storage}>
-            <Router />
-        </Provider>
-    )
-}
+  return (
+    <Provider store={store}>
+      <ChakraProvider>
+        <Router />
+      </ChakraProvider>
+    </Provider>
+  );
+};
 
-export default HeroeApp
+export default HeroeApp;
