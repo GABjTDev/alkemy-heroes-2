@@ -111,7 +111,7 @@ const NavMobile = () => {
                   </Link>
                 </Box>
                 <Box as="li" listStyleType={"none"} flexGrow={"1"}>
-                  {pathname === "characters" && <NavForm />}
+                  {pathname === "characters" && <NavForm onClose={onClose} />}
                 </Box>
                 <Box as="li" listStyleType={"none"} marginBottom={"20px"}>
                   <Button

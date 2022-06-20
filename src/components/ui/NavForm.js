@@ -3,7 +3,7 @@ import { Formik, Field, Form } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { filterCharacters } from "../../store/reducers/charactersSlice";
 
-const NavForm = () => {
+const NavForm = ({ onClose }) => {
   const { Characters } = useSelector((state) => state);
   const dispatch = useDispatch();
 
@@ -28,6 +28,7 @@ const NavForm = () => {
 
         values.search = "";
         dispatch(filterCharacters({ filter }));
+        onClose();
       }}
     >
       {({ errors }) => (
