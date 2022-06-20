@@ -15,7 +15,7 @@ const HeroesScreen = () => {
   useEffect(() => {
     if (
       Characters.status !== "completed" ||
-      Characters.visibleCharacters.length === 0
+      Characters.visibleCharacters.length < 10
     )
       dispatch(startGetAllCharacters());
   }, [dispatch]);
@@ -40,10 +40,10 @@ const HeroesScreen = () => {
                 <Text
                   as="h2"
                   fontSize="5xl"
-                  color="tomato"
+                  color="red.500"
                   gridColumn={"span 2"}
                 >
-                  Not Found Characters
+                  Characters not found
                 </Text>
               )}
               <AnimatePresence>

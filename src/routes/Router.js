@@ -12,14 +12,23 @@ import PublicRoute from "./PublicRoute";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { success } from "../store/reducers/authSlice";
+import {
+  getHeroeStorage,
+  getVillansStorage,
+} from "../store/reducers/teamsSlice";
 
 const Router = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     const token = localStorage.getItem("tokenAlkemy");
+    const heroes = localStorage.getItem("heroesAlkemy");
+    const villans = localStorage.getItem("villansAlkemy");
 
     if (token) dispatch(success({ ...JSON.parse(token) }));
+    if (heroes) dispatch(getHeroeStorage({ heroes: [...JSON.parse(heroes)] }));
+    if (villans)
+      dispatch(getVillansStorage({ villans: [...JSON.parse(villans)] }));
   }, [dispatch]);
 
   let routes = [

@@ -38,7 +38,7 @@ const NavForm = () => {
             placeholder="Search"
             style={{
               padding: "6px",
-              border: "1px solid black",
+              border: "2px solid gray",
               borderRadius: "5px",
               outline: "none",
               width: "100%",

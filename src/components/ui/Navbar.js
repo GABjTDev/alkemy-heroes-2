@@ -7,6 +7,7 @@ import { MdLogout } from "react-icons/md";
 import LOGO from "../../styles/assets/logoAlkemy.svg";
 import NavForm from "./NavForm";
 import { logout } from "../../store/reducers/authSlice";
+import { resetTeam } from "../../store/reducers/teamsSlice";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -17,6 +18,7 @@ const Navbar = () => {
     localStorage.removeItem("villansAlkemy");
     localStorage.removeItem("heroesAlkemy");
     dispatch(logout());
+    dispatch(resetTeam());
     navigate("/login");
   };
 
@@ -30,11 +32,11 @@ const Navbar = () => {
       p={"0 40px"}
       height={"60px"}
       display={"flex"}
-      marginBottom={"20px"}
       position={"sticky"}
       top={"0"}
       width={"100%"}
       zIndex={1000}
+      mb={"10px"}
     >
       <HStack w={"100%"}>
         <Box mr={"40px"}>
@@ -56,6 +58,7 @@ const Navbar = () => {
               _focus={{ outline: "none" }}
               fontSize={"20px"}
               fontWeight={"600"}
+              className={"btn-link"}
             >
               Team
             </Link>
@@ -73,6 +76,7 @@ const Navbar = () => {
               fontWeight={"600"}
               _hover={{ textDecoration: "none" }}
               _focus={{ outline: "none" }}
+              className={"btn-link"}
             >
               Characters
             </Link>

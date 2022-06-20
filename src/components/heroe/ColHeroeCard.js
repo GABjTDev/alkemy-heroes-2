@@ -15,9 +15,6 @@ const variants = {
   visible: {
     opacity: 1,
     scale: 1,
-    transition: {
-      duration: 0.2,
-    },
   },
 };
 
@@ -61,6 +58,7 @@ const ColHeroeCard = ({ character, actionDelete }) => {
       as={motion.div}
       initial="hidden"
       animate="visible"
+      exit="hidden"
       layoutId={id}
       variants={variants}
       maxW={"250px"}

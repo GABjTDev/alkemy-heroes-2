@@ -70,8 +70,8 @@ const TeamScreen = () => {
   return (
     <Container as={"main"} width={"100%"} maxW={"100%"} fontWeight={"bold"}>
       <Stack
-        flexDirection={{ sm: "column", md: "row" }}
-        alignItems={"center"}
+        flexDirection={{ base: "column", sm: "column", md: "row" }}
+        alignItems={{ base: "center", md: "flex-start" }}
         justifyContent={"center"}
         width={"100%"}
       >
@@ -89,12 +89,13 @@ const TeamScreen = () => {
             color={"blue.400"}
             textAlign="center"
             flexGrow={1}
+            alignSelf={"center"}
           >
             Heroes empty
           </Text>
         )}
 
-        <Box w={"100vw"} maxW={"100px"}>
+        <Box w={"100vw"} maxW={"100px"} alignSelf={"center"}>
           <Image src={VS} alt="img Versus" />
         </Box>
 
@@ -112,6 +113,7 @@ const TeamScreen = () => {
             color={"red.400"}
             textAlign="center"
             flexGrow={1}
+            alignSelf={"center"}
           >
             Villans empty
           </Text>

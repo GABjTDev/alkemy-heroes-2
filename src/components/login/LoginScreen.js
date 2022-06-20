@@ -1,5 +1,6 @@
+import { useRef } from "react";
 import { useFormik } from "formik";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Container,
   HStack,
@@ -11,6 +12,9 @@ import {
   InputGroup,
   InputLeftElement,
   Button,
+  ListItem,
+  UnorderedList,
+  Badge,
 } from "@chakra-ui/react";
 import { MdEmail, MdLogin } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
@@ -22,6 +26,9 @@ import { startLogin } from "../../store/reducers/authSlice";
 
 const LoginScreen = () => {
   const dispatch = useDispatch();
+  const { Auth } = useSelector((state) => state);
+
+  console.log(Auth);
 
   const validate = (values) => {
     const errors = {};
@@ -50,8 +57,17 @@ const LoginScreen = () => {
     },
   });
 
+  const inputEmail = useRef();
+  const inputPass = useRef();
+
+  const handleInput = (e) => {
+    e.target.innerHTML === "Email"
+      ? inputEmail.current.focus()
+      : inputPass.current.focus();
+  };
+
   return (
-    <HStack height={"100vh"} alignItems="flex-start">
+    <HStack height={"100vh"} alignItems="flex-start" bgColor={"#fff"}>
       <Container
         className="bg-image"
         height={"100vh"}
@@ -62,14 +78,23 @@ const LoginScreen = () => {
         bgSize="contain"
         bgColor={"#feeebc"}
         filter="grayscale(80%)"
+        display={{ base: "none", md: "block" }}
       ></Container>
       <Container
-        p={"40px 60px"}
+        p={{ base: "0 0", md: "40px 60px" }}
         maxW="100%"
         display="flex"
         flexDirection="column"
+        bgColor={"#fff"}
+        style={{ margin: 0 }}
       >
-        <Image src={LOGO} width="150px" alt="Logo de Alkemy" mb={"50px"} />
+        <Image
+          src={LOGO}
+          width="150px"
+          alt="Logo de Alkemy"
+          mb={"50px"}
+          p={{ base: "20px", md: "0" }}
+        />
         <VStack spacing="40px" p="20px">
           <Text as="h1" fontSize="4xl" fontWeight="bold">
             Team Challenge
@@ -91,17 +116,19 @@ const LoginScreen = () => {
                     value={formik.values.email}
                     bgColor="#f5fcff"
                     className={formik.values.email === "" ? "" : "inputSelect"}
+                    ref={inputEmail}
                   />
                   <Text
                     className="placeText"
                     position={"absolute"}
                     top={"8px"}
                     left={"41px"}
+                    onClick={(e) => handleInput(e)}
                   >
                     Email
                   </Text>
                   {formik.touched.email && formik.errors.email ? (
-                    <div role="alert">{formik.errors.email}</div>
+                    <Badge colorScheme="red">{formik.errors.email}</Badge>
                   ) : null}
                 </InputGroup>
                 <InputGroup display={"flex"} flexDirection="column">
@@ -119,31 +146,63 @@ const LoginScreen = () => {
                     className={
                       formik.values.password === "" ? "" : "inputSelect"
                     }
+                    ref={inputPass}
                   />
                   <Text
                     className="placeText"
                     position={"absolute"}
                     top={"8px"}
                     left={"41px"}
+                    onClick={(e) => handleInput(e)}
                   >
                     Password
                   </Text>
                   {formik.touched.password && formik.errors.password ? (
-                    <div role="alert">{formik.errors.password}</div>
+                    <Badge colorScheme="red">{formik.errors.password}</Badge>
                   ) : null}
                 </InputGroup>
-                <Button
-                  type="submit"
-                  rightIcon={<MdLogin />}
-                  colorScheme="blue"
-                >
-                  Login
-                </Button>
+                {Auth.status === "pending" ? (
+                  <Button colorScheme="blue" isLoading>
+                    Loading
+                  </Button>
+                ) : (
+                  <Button
+                    type="submit"
+                    rightIcon={<MdLogin />}
+                    colorScheme="blue"
+                  >
+                    Login
+                  </Button>
+                )}
+                {Auth.status === "fail" && (
+                  <Badge colorScheme="red">{Auth.error}</Badge>
+                )}
               </VStack>
             </form>
           </Box>
         </VStack>
         <hr />
+        <Box p="20px">
+          <Text as="h2" fontSize="2xl">
+            Explicación
+          </Text>
+          <Text mb={"20px"}>
+            Aplicación para crear equipos de héroes y villanos. Algunas de las
+            funciones que cumple la aplicación son:
+          </Text>
+          <UnorderedList>
+            <ListItem>Listado de personajes</ListItem>
+            <ListItem>Máximo de 3 personajes por equipo</ListItem>
+            <ListItem>Buscador</ListItem>
+            <ListItem>Protección de rutas</ListItem>
+            <ListItem>Mensajes con SweetAlert</ListItem>
+            <ListItem>Agregar y eliminar personajes del equipo</ListItem>
+            <ListItem>Página para ver más datos del personaje</ListItem>
+            <ListItem>
+              Estadísticas total entre todos los miembros del equipo
+            </ListItem>
+          </UnorderedList>
+        </Box>
       </Container>
     </HStack>
   );

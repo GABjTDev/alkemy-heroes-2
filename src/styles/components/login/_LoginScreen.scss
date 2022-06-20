@@ -11,3 +11,12 @@ input:focus ~ .placeText{
 .inputSelect ~ .placeText{
   transform: translate(-30px, -40px);
 }
+
+.btn-link{
+  border-bottom: 5px solid white;
+  transition: all 1s ease;
+}
+
+.btn-link.active{
+  border-bottom: 5px solid #58c1f5;
+}

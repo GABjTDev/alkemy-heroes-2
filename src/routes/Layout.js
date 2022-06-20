@@ -35,7 +35,7 @@ const Layout = () => {
 
   return (
     <Box
-      pb={"40px"}
+      pb={"20px"}
       backgroundImage={
         "linear-gradient(to top, #c4c5c7 0%, #dcdddf 52%, #ebebeb 100%)"
       }
