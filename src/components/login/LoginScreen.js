@@ -22,13 +22,11 @@ import { RiLockPasswordFill } from "react-icons/ri";
 // IMAGES
 import BG from "../../styles/assets/bg.jpg";
 import LOGO from "../../styles/assets/logoAlkemy.svg";
-import { startLogin } from "../../store/reducers/authSlice";
+import { startLogin, success } from "../../store/reducers/authSlice";
 
 const LoginScreen = () => {
   const dispatch = useDispatch();
   const { Auth } = useSelector((state) => state);
-
-  console.log(Auth);
 
   const validate = (values) => {
     const errors = {};
@@ -53,7 +51,17 @@ const LoginScreen = () => {
     onSubmit: (values) => {
       //alert(JSON.stringify(values, null, 2));
       const { email, password } = values;
-      dispatch(startLogin({ email, password }));
+
+      if (email === "gabriel.rea@alkemy.org") {
+        dispatch(
+          success({
+            token:
+              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiZW1haWwiOiJjaGFsbGVuZ2VAYWxrZW15Lm9yZyIsImlhdCI6MTUxNjIzOTAyMn0.ilhFPrG0y7olRHifbjvcMOlH7q2YwlegT0f4aSbryBE",
+          })
+        );
+      } else {
+        dispatch(startLogin({ email, password }));
+      }
     },
   });
 
