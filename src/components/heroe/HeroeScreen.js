@@ -6,6 +6,7 @@ import Spinner from "../ui/Spinner";
 
 import ButtonsAdd from "../ui/ButtonsAdd";
 import { Container, Box, Stack, VStack, Text, Image } from "@chakra-ui/react";
+import { motion } from "framer-motion";
 
 const initialState = {
   heroe: {},
@@ -36,7 +37,7 @@ const HeroeScreen = () => {
       {heroe.loading ? (
         <Spinner />
       ) : (
-        <>
+        <motion.div>
           <Text
             as="h1"
             fontSize="4xl"
@@ -47,6 +48,10 @@ const HeroeScreen = () => {
             {name}
           </Text>
           <Box
+            as={motion.div}
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition=".2s linear"
             background={"white"}
             borderRadius={"50px"}
             boxShadow={"0 0 5px rgba(0,0,0,.5)"}
@@ -102,10 +107,22 @@ const HeroeScreen = () => {
               </VStack>
             </Stack>
           </Box>
-          <Text as="h2" fontSize="3xl" textAlign={"center"} fontWeight={"bold"}>
+          <Text
+            as={motion.h2}
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition=".2s linear"
+            fontSize="3xl"
+            textAlign={"center"}
+            fontWeight={"bold"}
+          >
             Stats
           </Text>
           <Box
+            as={motion.div}
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition=".2s linear"
             background={"white"}
             padding={"20px 50px"}
             maxW={"1000px"}
@@ -114,7 +131,7 @@ const HeroeScreen = () => {
           >
             <Progress powerstats={powerstats} rol={biography["alignment"]} />
           </Box>
-        </>
+        </motion.div>
       )}
     </Container>
   );

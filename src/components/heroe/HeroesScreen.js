@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { startGetAllCharacters } from "../../store/reducers/charactersSlice";
+import { AnimatePresence } from "framer-motion";
 
 import Spinner from "../ui/Spinner";
 import ColHeroeCard from "./ColHeroeCard";
@@ -45,17 +46,22 @@ const HeroesScreen = () => {
                   Not Found Characters
                 </Text>
               )}
-              {Characters.visibleCharacters.map((character) => {
-                return (
-                  <GridItem
-                    key={character.id}
-                    display="flex"
-                    justifyContent={"center"}
-                  >
-                    <ColHeroeCard character={character} actionDelete={false} />
-                  </GridItem>
-                );
-              })}
+              <AnimatePresence>
+                {Characters.visibleCharacters.map((character) => {
+                  return (
+                    <GridItem
+                      key={character.id}
+                      display="flex"
+                      justifyContent={"center"}
+                    >
+                      <ColHeroeCard
+                        character={character}
+                        actionDelete={false}
+                      />
+                    </GridItem>
+                  );
+                })}
+              </AnimatePresence>
             </Grid>
             {Characters.error && (
               <div className="alert alert-danger" role="alert">

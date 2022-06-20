@@ -5,6 +5,21 @@ import { useDispatch } from "react-redux";
 import ButtonsAdd from "../ui/ButtonsAdd";
 import { Box, Button, Image, VStack } from "@chakra-ui/react";
 import { deleteHeroe, deleteVillan } from "../../store/reducers/teamsSlice";
+import { motion } from "framer-motion";
+
+const variants = {
+  hidden: {
+    opacity: 0,
+    scale: 0,
+  },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      duration: 0.2,
+    },
+  },
+};
 
 const ColHeroeCard = ({ character, actionDelete }) => {
   const dispatch = useDispatch();
@@ -43,6 +58,11 @@ const ColHeroeCard = ({ character, actionDelete }) => {
 
   return (
     <Box
+      as={motion.div}
+      initial="hidden"
+      animate="visible"
+      layoutId={id}
+      variants={variants}
       maxW={"250px"}
       height={"440px"}
       className="card"
