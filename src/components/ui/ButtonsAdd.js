@@ -72,11 +72,11 @@ const ButtonsAdd = React.memo(({ character }) => {
     <>
       {character.biography.alignment === "good" ? (
         <Button colorScheme="blue" onClick={() => handleAddHeroe(character)}>
-          Agregar Team Heroes
+          Add Team Heroes
         </Button>
       ) : (
         <Button colorScheme="red" onClick={() => handleAddVillan(character)}>
-          Agregar Team Villanos
+          Add Team Villans
         </Button>
       )}
     </>

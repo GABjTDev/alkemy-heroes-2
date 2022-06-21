@@ -199,6 +199,8 @@ const LoginScreen = () => {
             funciones que cumple la aplicación son:
           </Text>
           <UnorderedList>
+            <ListItem>Email: gabriel.rea@alkemy.org</ListItem>
+            <ListItem>Password: react</ListItem>
             <ListItem>Listado de personajes</ListItem>
             <ListItem>Máximo de 3 personajes por equipo</ListItem>
             <ListItem>Buscador</ListItem>

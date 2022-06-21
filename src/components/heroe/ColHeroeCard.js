@@ -99,7 +99,7 @@ const ColHeroeCard = ({ character, actionDelete }) => {
         >
           <Link to={`/character/${id}`}>
             <Button colorScheme="blue" variant="outline" m={"5px"}>
-              Ver más
+              See more
             </Button>
           </Link>
 
@@ -111,7 +111,7 @@ const ColHeroeCard = ({ character, actionDelete }) => {
               onClick={() => handleDelete(id)}
               m={"5px"}
             >
-              Eliminar
+              Delete
             </Button>
           )}
         </Box>
